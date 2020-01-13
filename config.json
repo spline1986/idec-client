@@ -1,0 +1,31 @@
+{
+    "node": "http://192.168.1.2:3000/",
+	"depth": 50,
+    "echoareas": [
+		["bash.rss", "RSS с сайта bash.im"],
+		["creepy.14", "Страшные истории"],
+		["develop.16", "Обсуждение вопросов программирования"],
+		["file.wishes", "Поиск файлов"],
+		["game.rogue.14", "Играем в rogue-like игры"],
+		["habra.16", "RSS с сайта habrahabr.ru"],
+		["idec.talks", "Обсуждение технологии и сети"],
+		["idec.test", "Тестовые сообщения"],
+		["ifhub.club", "RSS-лента сайта ifhub.club"],
+		["ii.stat", "Статистика станции"],
+		["instead-games.forum", "RSS форума Instead-games"],
+		["kurgan.local", "Локальная конференция г. Кургана"],
+		["linux.14", "Обсуждение OS GNU/Linux"],
+		["lit.14", "Литература"],
+		["lor-opennet.17", "RSS с сайтов linux.org.ru и opennet.ru"],
+		["mlp.15", "Уголок дружбомагии"],
+		["music.14", "Обсуждение музыки и её создания"],
+		["pipe.2032", "Общесетевая болталка"],
+		["ru.humor.14", "Юмор на русском языке"],
+		["std.bugs", "Клуб INSTEAD: ошибки"],
+		["std.club", "Клуб INSTEAD"],
+		["std.game", "Клуб INSTEAD: игры"],
+		["std.prog", "Клуб INSTEAD: программирование"],
+		["std.tech", "Клуб INSTEAD: технологии"]
+
+	]
+}
