@@ -24,13 +24,13 @@
 %for msg in messages:
 <div class="message">
 <div class="message-head">
-%tags = msg[1].split("/")
+%tags = msg[0].split("/")
 %if "repto" in tags:
 %reptoid = tags[tags.index("repto") + 1]
 Ответ на <a href="/{{reptoid}}">{{reptoid}}</a><br>
 %end
-<a href="/{{msg[0]}}">#</a> {{msg[4]}} [{{msg[5]}}] 🠞 {{msg[6]}} ({{msg[3]}}) в <a href="/{{msg[1]}}">{{msg[1]}}</a><br>
-{{msg[7]}}
+<a href="/{{msg[0]}}">#</a> {{msg[3]}} [{{msg[4]}}] 🠞 {{msg[5]}} ({{msg[2]}}) в <a href="/{{msg[1]}}">{{msg[1]}}</a><br>
+{{msg[6]}}
 </div>
 %msg = "\n".join(msg[8:])
 {{!body_render(msg)}}
