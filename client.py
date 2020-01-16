@@ -116,6 +116,8 @@ def fetch():
 def save_message():
     api.load_config()
     subj = request.forms.getunicode("subj")
+    if subj == "":
+        subj = "No subject"
     body = request.forms.getunicode("body")
     echo = request.forms.getunicode("echo")
     if idec_filter.is_echoarea(echo):
