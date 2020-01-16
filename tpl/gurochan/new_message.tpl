@@ -22,6 +22,7 @@
 <div id="messages">
 <h2>Новое сообщение в {{echo}}</h2>
 <form method="post" action="/s/save_message">
+<input name="to" class="text_fiels" type="text" value="{{to}}" hidden="1">
 <input name="echo" class="text_fiels" type="text" value="{{echo}}" hidden="1">
 <input name="subj" class="text_field" type="text" placeholder="Тема сообщения" value="{{subj}}"><br>
 <textarea name="body" cols="80" rows="15" placeholder="Тест сообщения">{{body}}</textarea><br>

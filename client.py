@@ -80,7 +80,7 @@ def new_message(echoarea):
     if idec_filter.is_echoarea(echoarea):
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
                         echoareas=api.config["echoareas"], echo=echoarea,
-                        body="", subj="", template=api.config["template"])
+                        body="", subj="", to="All", template=api.config["template"])
 
 
 @route("/reply/<echoarea>/<msgid>")
@@ -88,12 +88,13 @@ def new_message(echoarea, msgid):
     api.load_config()
     if idec_filter.is_echoarea(echoarea) and idec_filter.is_msgid(msgid):
         msg = base.read_message(msgid).split("\n")
-        fr = api.initials(msg[3])
+        fr = msg[3]
+        initials = api.initials(msg[3])
         subj = msg[6]
-        msg = api.quoter(msg[8:], fr)
+        msg = api.quoter(msg[8:], initials)
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
                         echoareas=api.config["echoareas"], echo=echoarea,
-                        body="\n".join(msg), subj=subj,
+                        body="\n".join(msg), subj=subj, to=fr,
                         template=api.config["template"])
 
 
@@ -115,13 +116,14 @@ def fetch():
 @post("/s/save_message")
 def save_message():
     api.load_config()
+    to = request.forms.getunicode("to")
     subj = request.forms.getunicode("subj")
     if subj == "":
         subj = "No subject"
     body = request.forms.getunicode("body")
     echo = request.forms.getunicode("echo")
     if idec_filter.is_echoarea(echo):
-        base.save_out(echo, "All", subj, body)
+        base.save_out(echo, to, subj, body)
         redirect("/s/saved")
     else:
         redirect("/")
