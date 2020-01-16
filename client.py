@@ -80,7 +80,21 @@ def new_message(echoarea):
     if idec_filter.is_echoarea(echoarea):
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
                         echoareas=api.config["echoareas"], echo=echoarea,
-                        body="", template=api.config["template"])
+                        body="", subj="", template=api.config["template"])
+
+
+@route("/reply/<echoarea>/<msgid>")
+def new_message(echoarea, msgid):
+    api.load_config()
+    if idec_filter.is_echoarea(echoarea) and idec_filter.is_msgid(msgid):
+        msg = base.read_message(msgid).split("\n")
+        fr = api.initials(msg[3])
+        subj = msg[6]
+        msg = api.quoter(msg[8:], fr)
+        return template("tpl/{}/new_message.tpl".format(api.config["template"]),
+                        echoareas=api.config["echoareas"], echo=echoarea,
+                        body="\n".join(msg), subj=subj,
+                        template=api.config["template"])
 
 
 @route("/s/fetch")

@@ -101,3 +101,30 @@ def body_render(body):
         else:
             txt += line + "\n"
     return txt
+
+
+def initials(to):
+    to = to.split()
+    if len(to) == 1:
+        return to[0]
+    else:
+        i = ""
+        for word in to:
+            i = i + word[0]
+        return i
+
+
+def quoter(text, fr):
+    rr = re.compile(r"[a-zA-Zа-яА-Я0-9_\(\)-]{0,20}>{1,20}")
+    for line in text:
+        if rr.match(line):
+            if line[rr.match(line).span()[1]] == " ":
+                quoter = ">"
+            else:
+                quoter = "> "
+            yield (line[:rr.match(line).span()[1]] + quoter +
+                   line[rr.match(line).span()[1]:])
+        elif line != "":
+            yield "{}> {}".format(fr, line)
+        else:
+            yield ""
