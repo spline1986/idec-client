@@ -57,7 +57,7 @@ def save_config():
 
 def formatted_time(timestamp):
     "Return formatted time by unix timestamp."
-    return time.strftime("%d.%m.%y %H:%M UTC", time.gmtime(int(timestamp)))
+    return time.strftime("%d.%m.%Y %H:%M UTC", time.gmtime(int(timestamp)))
 
 
 def body_render(body):
