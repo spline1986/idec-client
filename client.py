@@ -87,22 +87,23 @@ def new_message(echoarea):
 def fetch():
     "Fetch mail from uplink."
     api.load_config()
+    exchange.send_mail(api.config["node"], api.config["auth"])
     open("newmessages.txt", "w")
     if api.config["echoareas"]:
         echoareas = [echo[0] for echo in api.config["echoareas"]]
-        exchange.download_mail(api.config["node"], echoareas, 0)
+        exchange.download_mail(api.config["node"], echoareas, 200)
     if api.config["fileechoareas"]:
         exchange.download_filemail(api.config["node"],
-                                   api.config["fileechoareas"], 0)
+                                   api.config["fileechoareas"], 200)
     redirect("/new")
 
 
 @post("/s/save_message")
 def save_message():
     api.load_config()
-    subj = request.forms.get("subj")
-    body = request.forms.get("body")
-    echo = request.forms.get("echo")
+    subj = request.forms.getunicode("subj")
+    body = request.forms.getunicode("body")
+    echo = request.forms.getunicode("echo")
     if idec_filter.is_echoarea(echo):
         base.save_out(echo, "All", subj, body)
         redirect("/s/saved")

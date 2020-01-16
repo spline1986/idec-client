@@ -126,3 +126,19 @@ def download_filemail(node, fileechoareas, depth):
         print("new files not found")
     for s in index:
         download_file(node, s[0], s[1])
+
+
+def send_mail(node, auth):
+    "Send outgoing messages to server."
+    tossed = list(base.get_tossed_list())
+    n = 1
+    count = len(tossed)
+    for msg in tossed:
+        print("send message {}/{}".format(n, count))
+        data = {}
+        data["pauth"] = auth
+        data["tmsg"] = base.get_tossed(msg)
+        data = urllib.parse.urlencode(data).encode("utf8")
+        req = urllib.request.Request(node + "u/point", data=data)
+        urllib.request.urlopen(req)
+        base.remove_tossed(msg)

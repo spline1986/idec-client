@@ -100,15 +100,39 @@ def next_out():
             n = int(last.read())
         with open("out/last", "w") as last:
             last.write(str(n+1))
-        return n
+        return "{:0>5d}".format(n)
     except FileNotFoundError:
         with open("out/last", "w") as last:
             last.write("1")
-        return 0
+        return "00000"
 
 
 def save_out(echoarea, to, subj, body):
     "Save outgoing message to base."
-    msg = [echoarea, to, subj, "", body]
-    with open("out/{}".format(next_out()), "w") as out:
-        out.write("\n".join(msg))
+    msg = "\n".join([echoarea, to, subj, "", body])
+    filename = next_out()
+    with open("out/{}.txt".format(filename), "w") as out:
+        out.write(msg)
+    encoded = base64.b64encode(msg.encode())
+    with open("out/{}.toss".format(filename), "w") as toss:
+        toss.write(encoded.decode())
+
+
+def get_tossed_list():
+    "Return filenames of tossed messages."
+    files = os.listdir("out/")
+    files.sort()
+    for f in files:
+        if f.endswith(".toss"):
+            yield f
+
+
+def get_tossed(i):
+    "Return tossed message."
+    with open("out/{}".format(i)) as tossed:
+        return tossed.read()
+
+
+def remove_tossed(i):
+    "Remove tossed message."
+    os.remove("out/{}".format(i))
