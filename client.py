@@ -180,7 +180,6 @@ def style(filename):
     api.load_config()
     response =  static_file(filename,
                             root="tpl/{}".format(api.config["template"]))
-    response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
     return response
 
 
