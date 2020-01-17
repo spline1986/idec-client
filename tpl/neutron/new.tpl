@@ -10,14 +10,7 @@
 <li><a href="/settings">Настройки</a></li>
 </ul>
 </div><br>
-<div id="sidebar">
-<b>Конференции:</b>
-<ul id="echolist">
-%for echoarea in echoareas:
-<li><a href="/{{echoarea[0]}}" title="{{echoarea[1]}}">{{echoarea[0]}}</a></li>
-%end
-</ul>
-</div>
+%include("tpl/{}/sidebar.tpl".format(template), echoareas=echoareas, fechoareas=fechoareas)
 <div id="messages">
 %if messages:
 <h2>Новые сообщения:</h2>
@@ -38,6 +31,26 @@
 %end
 %else:
 <h2>Новых сообщений нет</h2>
+%end
+%if files:
+<h2>Новые файлы:</h2>
+%f = ""
+%for file in files:
+%if f != file[0]:
+%if f != "":
+</ul>
+%end
+%f = file[0]
+<h3>{{f}}:</h3>
+<ul>
+%end
+<li><a target="new" href="/file/{{f}}/{{file[1]}}" title="{{file[2]}}">{{file[1]}}</a></li>
+%end
+%if f != "":
+</ul>
+%end
+%else:
+<h2>Новых файлов нет</h2>
 %end
 </div>
 </center>

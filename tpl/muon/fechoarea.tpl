@@ -5,6 +5,7 @@
 <div id="menu">
 <h1>IDEC</h1>
 <ul id="buttons">
+<li><a href="/">Главная</a></li> |
 <li><a href="/s/fetch">Синхронизация</a></li> |
 <li><a href="/new">Новые сообщения</a></li> |
 <li><a href="/settings">Настройки</a></li>
@@ -12,21 +13,16 @@
 </div><br>
 %include("tpl/{}/sidebar.tpl".format(template), echoareas=echoareas, fechoareas=fechoareas)
 <div id="messages">
-%if messages:
-<h2>Последние сообщения:</h2>
-%for msg in messages:
-<h3><a href="/{{msg[1]}}">{{msg[1]}}</a> [{{counts[msg[1]]}}]</h3>
-<div class="message">
-<div class="message-head">
-{{msg[3]}} [{{msg[4]}}] 🠞 {{msg[5]}} ({{msg[2]}})<br>
-{{msg[6]}}
-</div>
-%msg = "\n".join(msg[7:])
-{{!body_render(msg)}}
-</div>
+<h2>Файлы в {{fechoarea}}</h2>
+%if files:
+<ul>
+%for f in files:
+<li><a target="new" href="/file/{{fechoarea}}/{{f[1]}}" title="{{f[4]}}">{{f[1]}}</a></li>
 %end
+</ul>
+%else:
+Нет файлов.
 %end
-</div>
 </div>
 </center>
 %include("tpl/{}/footer.tpl".format(template))

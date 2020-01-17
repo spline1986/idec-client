@@ -13,7 +13,7 @@ def read_blacklist():
 def fechoarea_count(fechoarea):
     "Return files count in fileechoarea."
     try:
-        return len(open(f"fecho/{fechoarea}", "r").read().strip().split("\n"))
+        return len(open(f"fecho/{fechoarea}.txt", "r").read().strip().split("\n"))
     except FileNotFoundError:
         return 0
 
@@ -21,7 +21,7 @@ def fechoarea_count(fechoarea):
 def read_fechoarea(fechoarea):
     "Return fileechoarea index."
     try:
-        for line in open(f"fecho/{fechoarea}").read().strip().split("\n"):
+        for line in open(f"fecho/{fechoarea}.txt").read().strip().split("\n"):
             yield [fechoarea, line]
     except FileNotFoundError:
         return []
@@ -42,6 +42,7 @@ def save_file(fecho, frow, out):
         f.write(buffer)
     f.close()
     open(f"fecho/{fecho}.txt", "a").write(":".join(frow) + "\n")
+    open("newfiles.txt", "a").write("{}:{}:{}\n".format(fecho, frow[1], frow[4]))
 
 
 def get_file_hashs(fileechoarea):

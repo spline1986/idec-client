@@ -11,13 +11,7 @@
 <li><a href="/settings">Настройки</a></li>
 </ul>
 </div><br>
-<div id="sidebar">
-<b>Конференции:</b>
-<ul id="echolist">
-%for echoarea in echoareas:
-<li><a href="/{{echoarea[0]}}" title="{{echoarea[1]}}">{{echoarea[0]}}</a></li>
-%end
-</ul>
+%include("tpl/{}/sidebar.tpl".format(template), echoareas=echoareas, fechoareas=fechoareas)
 </div>
 <div id="messages">
 %if message:

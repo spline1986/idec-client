@@ -2,7 +2,7 @@ html, body {
 	color: #c6985c;
 	background: #000000;
 	background-image: url("/files/bg.jpg");
-	line-height: 1,2pt;
+	line-height: 1.2;
 	font-family: sans-serif;
 }
 
@@ -119,6 +119,10 @@ pre {
 	line-height: normal;
 	white-space: pre-wrap;
 	word-break: break-all;
+}
+
+li {
+	margin-bottom: 1.2pt;
 }
 
 .text_field {

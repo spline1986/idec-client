@@ -3,6 +3,7 @@
 import api
 from api import base
 from api import exchange
+from api import fecho
 from api import idec_filter
 from bottle import post, redirect, request, route, run, static_file, template
 from math import floor
@@ -22,22 +23,30 @@ def index():
             counts[msg[1]] = base.echoarea_count(msg[1])
     return template("tpl/{}/index.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], messages=messages,
-                    counts=counts, template=api.config["template"])
+                    fechoareas=api.config["fechoareas"], counts=counts,
+                    template=api.config["template"])
 
 
 @route("/new")
 def newmessages():
     "New messages page function."
     api.load_config()
-    with open("newmessages.txt", "r") as new:
+    with open("newmessages.txt") as new:
         msgids = new.read().split()
     messages = []
     for msgid in msgids:
         msg = base.read_message(msgid).split("\n")
         msg[2] = api.formatted_time(msg[2])
         messages.append(msg)
+    files = []
+    with open("newfiles.txt") as new:
+        for line in new.read().split("\n"):
+            if len(line) > 0:
+                f = line.split(":")
+                files.append([f[0], f[1], ":".join(f[2:])])
     return template("tpl/{}/new.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], messages=messages,
+                    files=files, fechoareas=api.config["fechoareas"],
                     template=api.config["template"])
 
 
@@ -60,7 +69,8 @@ def echo_reader(e1, e2, page=False):
             break
     return template("tpl/{}/echoarea.tpl".format(api.config["template"]),
                     echo=echoarea, echoareas=api.config["echoareas"],
-                    messages=messages, pages=pages, page=int(page),
+                    fechoareas=api.config["fechoareas"], messages=messages,
+                    pages=pages, page=int(page),
                     template=api.config["template"])
 
 
@@ -71,7 +81,8 @@ def message_reader(msgid):
     msg[2] = api.formatted_time(msg[2])
     return template("tpl/{}/message.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], msgid=msgid,
-                    message=msg, template=api.config["template"])
+                    fechoareas=api.config["fechoareas"], message=msg,
+                    template=api.config["template"])
 
 
 @route("/new_message/<echoarea>")
@@ -80,7 +91,8 @@ def new_message(echoarea):
     if idec_filter.is_echoarea(echoarea):
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
                         echoareas=api.config["echoareas"], echo=echoarea,
-                        body="", subj="", to="All", template=api.config["template"])
+                        fechoareas=api.config["fechoareas"], body="", subj="",
+                        to="All", template=api.config["template"])
 
 
 @route("/reply/<echoarea>/<msgid>")
@@ -94,8 +106,32 @@ def new_message(echoarea, msgid):
         msg = api.quoter(msg[8:], initials)
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
                         echoareas=api.config["echoareas"], echo=echoarea,
+                        fechoareas=api.config["fechoareas"],
                         body="\n".join(msg), subj=subj, to=fr,
                         template=api.config["template"])
+
+
+@route("/fecho/<fechoarea>")
+def fechoarea(fechoarea):
+    api.load_config()
+    files = []
+    for f in fecho.read_fechoarea(fechoarea):
+        files.append(f[1].split(":"))
+    files.sort(key=lambda x: x[1].lower())
+    return template("tpl/{}/fechoarea.tpl".format(api.config["template"]),
+                    echoareas=api.config["echoareas"],
+                    fechoareas=api.config["fechoareas"],
+                    fechoarea=fechoarea, files=files,
+                    template=api.config["template"])
+
+
+@route("/file/<fechoarea>/<filename>")
+def file(fechoarea, filename):
+    api.load_config()
+    response =  static_file(filename,
+                            root="fecho/{}".format(fechoarea))
+    response.set_header("Cache-Control", "no-cache, no-store, must-revalidate")
+    return response
 
 
 @route("/s/fetch")
@@ -107,9 +143,10 @@ def fetch():
     if api.config["echoareas"]:
         echoareas = [echo[0] for echo in api.config["echoareas"]]
         exchange.download_mail(api.config["node"], echoareas, 200)
-    if api.config["fileechoareas"]:
-        exchange.download_filemail(api.config["node"],
-                                   api.config["fileechoareas"], 200)
+    open("newfiles.txt", "w")
+    if api.config["fechoareas"]:
+        fechoareas = [fecho[0] for fecho in api.config["fechoareas"]]
+        exchange.download_filemail(api.config["node"], fechoareas, 200)
     redirect("/new")
 
 

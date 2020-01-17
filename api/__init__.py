@@ -40,8 +40,8 @@ def load_config():
             config["depth"] = 50
         if not "echoareas" in config:
             config["echoareas"] = []
-        if not "fileechoareas" in config:
-            config["fileechoareas"] = []
+        if not "fechoareas" in config:
+            config["fechoareas"] = []
         if not "template" in config:
             config["template"] = "photon"
     except json.JSONDecodeError:
