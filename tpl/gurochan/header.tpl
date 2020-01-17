@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="/files/style.css">
+<link rel="stylesheet" type="text/css" href="/files/gurochan.css">
 <link rel="icon" href="/files/favicon.png" type="image/png">
 <title>IDEC-client</title>
 </head>
