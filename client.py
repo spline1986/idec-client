@@ -44,6 +44,7 @@ def newmessages():
             if len(line) > 0:
                 f = line.split(":")
                 files.append([f[0], f[1], ":".join(f[2:])])
+    files.sort(key = lambda x: x[1])
     return template("tpl/{}/new.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], messages=messages,
                     files=files, fechoareas=api.config["fechoareas"],
