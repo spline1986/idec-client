@@ -181,6 +181,7 @@ def saved():
     api.load_config()
     return template("tpl/{}/saved.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"],
+                    fechoareas=api.config["fechoareas"],
                     body="", template=api.config["template"])
 
 
