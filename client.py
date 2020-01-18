@@ -68,6 +68,8 @@ def echo_reader(e1, e2, page=False):
         if echo[0] == echoarea:
             echoarea = echo
             break
+    else:
+        echoarea = [echoarea, ""]
     return template("tpl/{}/echoarea.tpl".format(api.config["template"]),
                     echo=echoarea, echoareas=api.config["echoareas"],
                     fechoareas=api.config["fechoareas"], messages=messages,
@@ -124,6 +126,13 @@ def fechoarea(fechoarea):
                     fechoareas=api.config["fechoareas"],
                     fechoarea=fechoarea, files=files,
                     template=api.config["template"])
+
+
+@route("/settings")
+def settings():
+    api.load_config()
+    return template("tpl/{}/settings.tpl".format(api.config["template"]),
+                    config=api.config)
 
 
 @route("/file/<fechoarea>/<filename>")

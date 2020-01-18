@@ -43,7 +43,10 @@
 <a href="/new_message/{{echo[0]}}">Новое сообщение</a>
 %end
 <br>
+<div>
+<a id="new_message" href="/new_message/{{echo[0]}}">Новое сообщение</a>
 %include("tpl/{}/paginator.tpl".format(template), page=page, pages=pages)
+</div>
 </div>
 </div>
 </center>
