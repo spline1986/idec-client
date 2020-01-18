@@ -65,7 +65,7 @@ a:hover {
 	width: calc(100% - 15em - 2px);
 }
 
-#new_message {
+.new_message {
 	position: absolute;
 	right: 0;
 }
