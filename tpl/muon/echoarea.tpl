@@ -16,7 +16,7 @@
 %if messages:
 <h2>{{echo[0]}}: {{echo[1]}}</h2>
 <div>
-<a class="new_message" href="/new_message/{{echo[0]}}">Новое сообщение</a>
+&nbsp;<a class="new_message" href="/new_message/{{echo[0]}}">Новое сообщение</a>
 %include("tpl/{}/paginator.tpl".format(template), page=page, pages=pages)
 </div>
 %for msg in messages:
