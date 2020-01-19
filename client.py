@@ -36,7 +36,8 @@ def newmessages():
     messages = []
     for msgid in msgids:
         msg = base.read_message(msgid).split("\n")
-        msg[2] = api.formatted_time(msg[2])
+        msg.insert(0, msgid)
+        msg[3] = api.formatted_time(msg[3])
         messages.append(msg)
     files = []
     with open("newfiles.txt") as new:

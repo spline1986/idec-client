@@ -12,9 +12,7 @@
 </ul>
 </div><br>
 %include("tpl/{}/sidebar.tpl".format(template), echoareas=echoareas, fechoareas=fechoareas)
-</div>
 <div id="messages">
-%if message:
 <h2>Сообщение {{msgid}}</h2>
 <div class="message">
 <div class="message-head">
@@ -29,7 +27,6 @@
 %message = "\n".join(message[7:])
 {{!body_render(message)}}
 </div>
-%end
 </div>
 </div>
 </center>
