@@ -22,7 +22,7 @@
 %reptoid = tags[tags.index("repto") + 1]
 Ответ на <a href="/{{reptoid}}">{{reptoid}}</a><br>
 %end
-<a target="new" href="/{{msg[0]}}">#</a> {{msg[4]}} [{{msg[5]}}] 🠞 {{msg[6]}} ({{msg[3]}}) в <a href="/{{msg[2]}}">{{msg[2]}}</a><br>
+<a target="_blank" href="/{{msg[0]}}">#</a> {{msg[4]}} [{{msg[5]}}] 🠞 {{msg[6]}} ({{msg[3]}}) в <a href="/{{msg[2]}}">{{msg[2]}}</a><br>
 {{msg[7]}}
 </div>
 %msg = "\n".join(msg[9:])
@@ -44,7 +44,7 @@
 <h3>{{f}}:</h3>
 <ul>
 %end
-<li><a target="new" href="/file/{{f}}/{{file[1]}}" title="{{file[2]}}">{{file[1]}}</a></li>
+<li><a target="_blank" href="/file/{{f}}/{{file[1]}}" title="{{file[2]}}">{{file[1]}}</a></li>
 %end
 %if f != "":
 </ul>

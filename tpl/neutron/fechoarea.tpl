@@ -17,7 +17,7 @@
 %if files:
 <ul>
 %for f in files:
-<li><a target="new" href="/file/{{fechoarea}}/{{f[1]}}" title="{{f[4]}}">{{f[1]}}</a></li>
+<li><a target="_blank" href="/file/{{fechoarea}}/{{f[1]}}" title="{{f[4]}}">{{f[1]}}</a></li>
 %end
 </ul>
 %else:
