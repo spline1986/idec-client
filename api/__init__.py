@@ -100,6 +100,7 @@ def body_render(body):
             txt += line.replace("<br>", "") + "\n"
         else:
             txt += line + "\n"
+    txt = txt.replace("(:[:", "<").replace(":]:)",">")
     return txt
 
 

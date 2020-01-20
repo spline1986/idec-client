@@ -41,12 +41,12 @@ def read_last_message(echoarea):
         with open(f"echo/{echoarea}") as echofile:
             msgid = echofile.read().split()[-1]
     except FileNotFoundError:
-        return []
+        return "", []
     try:
         with open(f"msg/{msgid}") as msgfile:
-            return msgfile.read().split("\n")
+            return msgid, msgfile.read().split("\n")
     except FileNotFoundError:
-        return []
+        return "", []
 
 
 def read_messages_by_page(echoarea, page, onpage):
