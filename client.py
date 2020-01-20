@@ -9,27 +9,6 @@ from bottle import post, redirect, request, route, run, static_file, template
 from math import floor
 
 
-def short_body(lines, msgid):
-    body = []
-    n = 0
-    for line in lines:
-        words = line.split()
-        r = []
-        for word in words:
-            r.append(word)
-            n += 1
-            if n == 200:
-                r[-1] = r[-1] + "..."
-                body.append(" ".join(r))
-                body.append("")
-                body.append("(:[:a target='_blank' href='/{}':]:)Читать далее(:[:/a:]:)".format(msgid))
-                break
-        if n == 200:
-            break
-        body.append(" ".join(r))
-    return body
-
-
 @route("/")
 def index():
     "Index page function."
@@ -42,7 +21,7 @@ def index():
             msg[2] = api.formatted_time(msg[2])
             messages.append(msg)
             counts[msg[1]] = base.echoarea_count(msg[1])
-            msg[8:] = short_body(msg[8:], msgid)
+            msg[8:] = api.short_body(msg[8:], msgid)
     return template("tpl/{}/index.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], messages=messages,
                     fechoareas=api.config["fechoareas"], counts=counts,

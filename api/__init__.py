@@ -129,3 +129,24 @@ def quoter(text, fr):
             yield "{}> {}".format(fr, line)
         else:
             yield ""
+
+
+def short_body(lines, msgid):
+    body = []
+    n = 0
+    for line in lines:
+        words = line.split()
+        r = []
+        for word in words:
+            r.append(word)
+            n += 1
+            if n == 200:
+                r[-1] = r[-1] + "..."
+                body.append(" ".join(r))
+                body.append("")
+                body.append("(:[:a target='_blank' href='/{}':]:)Читать далее(:[:/a:]:)".format(msgid))
+                break
+        if n == 200:
+            break
+        body.append(" ".join(r))
+    return body
