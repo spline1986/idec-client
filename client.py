@@ -108,6 +108,8 @@ def new_message(echoarea, msgid):
         fr = msg[3]
         initials = api.initials(msg[3])
         subj = msg[6]
+        if not subj.startswith("Re: "):
+            subj = "Re: " + subj
         msg = api.quoter(msg[8:], initials)
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
                         echoareas=api.config["echoareas"], echo=echoarea,
@@ -191,9 +193,7 @@ def saved():
 def style(filename):
     "Static files of template."
     api.load_config()
-    response =  static_file(filename,
-                            root="tpl/{}".format(api.config["template"]))
-    return response
+    return static_file(filename, root="tpl/{}".format(api.config["template"]))
 
 
 print(open("logo.txt", "r").read())
