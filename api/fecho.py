@@ -5,11 +5,6 @@ import os
 from shutil import copyfile
 
 
-def read_blacklist():
-    "Return blacklist for fileechoarea."
-    return open("fblacklist.txt").read().split()
-
-
 def fechoarea_count(fechoarea):
     "Return files count in fileechoarea."
     try:
