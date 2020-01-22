@@ -7,7 +7,7 @@
 
 %en = page + 5
 %if en > pages:
-%en = pages
+%en = pages + 1
 %end
 
 %if st > 1:
