@@ -23,6 +23,7 @@ def check_base():
     check_dir("echo")
     check_dir("msg")
     check_dir("out")
+    check_dir("fecho")
     check_file("config.json")
 
 
@@ -72,7 +73,7 @@ def body_render(body):
     rr = re.compile("(ii:\/\/)([a-z0-9A-Z]{20})")
     body = rr.sub(r"<i class='fa fa-envelope iilink'></i>&nbsp;<a class='iilink' href='\2'>\2</a>", body)
     rr = re.compile("((^|\n)(== ).+)")
-    body = rr.sub(r"<h3 class='title'>\1</h3>", body)
+    body = rr.sub(r"<b class='title'>\1</b>", body)
     rr = re.compile("((^|\n)----)")
     body = rr.sub(r"<hr>", body)
     rr = re.compile("((^|\n)(\+\+\+).*)")
