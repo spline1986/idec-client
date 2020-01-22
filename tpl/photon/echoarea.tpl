@@ -39,7 +39,9 @@
 %end
 %else:
 <h2>Нет сообщений в {{echo[0]}}</h2>
-<a href="/new_message/{{echo[0]}}">Новое сообщение</a>
+<div>
+&nbsp;<a class="new_message" href="/new_message/{{echo[0]}}">Новое сообщение</a>
+</div>
 %end
 <br>
 %if messages:
