@@ -6,27 +6,6 @@ from os import path, makedirs
 config = {}
 
 
-def check_dir(directory):
-    "Check and create directory."
-    if not path.exists(directory):
-        makedirs(directory)
-
-
-def check_file(filename):
-    "Check and create file."
-    if not path.exists(filename):
-        open(filename, "w")
-
-
-def check_base():
-    "Check base and needed files."
-    check_dir("echo")
-    check_dir("msg")
-    check_dir("out")
-    check_dir("fecho")
-    check_file("config.json")
-
-
 def load_config():
     "Load config json-file to config variable."
     global config
@@ -67,11 +46,11 @@ def body_render(body):
     rr = re.compile("((^|\n)(PS|P.S|ps|ЗЫ|З.Ы|\/\/|#).*)")
     body = rr.sub(r"<span class='comment'>\1</span>", body)
     rr = re.compile("((http|https|ftp):\/\/[a-z_0-9\-.:]+(\/[^ \t<>\n\r]+)?\/?)")
-    body = rr.sub(r"<span class='url'><a target='_blank' href='\1'><i class='fa fa-link'></i> \1</a></span>", body)
+    body = rr.sub(r"<a target='_blank' href='\1'>\1</a>", body)
     rr = re.compile("(ii:\/\/)([a-z0-9_!.-]{1,60}\.[a-z0-9_!.-]{1,59}[a-z0-9_!-])")
-    body = rr.sub(r"<i class='fa fa-plane iilink'></i>&nbsp;<a class='iilink' href='\2'>\2</a>", body)
+    body = rr.sub(r"<a class='iilink' href='/\2'>ii://\2</a>", body)
     rr = re.compile("(ii:\/\/)([a-z0-9A-Z]{20})")
-    body = rr.sub(r"<i class='fa fa-envelope iilink'></i>&nbsp;<a class='iilink' href='\2'>\2</a>", body)
+    body = rr.sub(r"<a class='iilink' href='/\2'>ii://\2</a>", body)
     rr = re.compile("((^|\n)(== ).+)")
     body = rr.sub(r"<b class='title'>\1</b>", body)
     rr = re.compile("((^|\n)----)")
