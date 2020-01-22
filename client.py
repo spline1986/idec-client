@@ -60,9 +60,9 @@ def echo_reader(e1, e2, page=False):
     api.load_config()
     echoarea = "{}.{}".format(e1, e2)
     messages = []
-    pages = floor(base.echoarea_count(echoarea) / 50) + 2
+    pages = floor(base.echoarea_count(echoarea) / 50) + 1
     if not page:
-        page = pages - 1
+        page = pages
     for msg in base.read_messages_by_page(echoarea, int(page), 50):
         msg[3] = api.formatted_time(msg[3])
         messages.append(msg)
@@ -156,11 +156,11 @@ def fetch():
     open("newmessages.txt", "w")
     if api.config["echoareas"]:
         echoareas = [echo[0] for echo in api.config["echoareas"]]
-        exchange.download_mail(api.config["node"], echoareas, 200)
+        exchange.download_mail(api.config["node"], echoareas, 215)
     open("newfiles.txt", "w")
     if api.config["fechoareas"]:
         fechoareas = [fecho[0] for fecho in api.config["fechoareas"]]
-        exchange.download_filemail(api.config["node"], fechoareas, 200)
+        exchange.download_filemail(api.config["node"], fechoareas, 215)
     redirect("/new")
 
 
@@ -197,5 +197,5 @@ def style(filename):
 
 
 print(open("logo.txt", "r").read())
-api.check_base()
+base.check_base()
 run(host="localhost", port=4242)

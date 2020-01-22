@@ -55,15 +55,6 @@ def download_bundle(node, msgids):
     return bundle
 
 
-def debundle(bundle):
-    "Unpack bundle."
-    for line in bundle:
-        row = line.split(":")
-        message = base64.urlsafe_b64decode(row[1]).decode("utf-8")
-        echoarea = message.split("\n")[1]
-        base.save_message(echoarea, row[0], message)
-
-
 def download_mail(node, echoareas, depth):
     "Download echomail."
     index = build_diff(list(base.read_local_index(echoareas)),
@@ -71,7 +62,7 @@ def download_mail(node, echoareas, depth):
     if len(index) == 0:
         print("new messages not found")
     for s in split(index):
-        debundle(download_bundle(node, s))
+        base.debundle(download_bundle(node, s))
 
 
 def read_local_fileindex(fechoareas):
