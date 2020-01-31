@@ -10,8 +10,8 @@ def load_config():
     "Load config json-file to config variable."
     global config
     try:
-        with open("config.json", "r") as config_file:
-            config = json.loads(config_file.read())
+        with open("config.json") as f:
+            config = json.loads(f.read())
         if not "node" in config:
             config["node"] = ""
         if not "auth" in config:
@@ -31,13 +31,45 @@ def load_config():
 def save_config():
     "Save config json-file from config variable."
     global config
-    with open("config.json", "w") as config_file:
-        config_file.write(json.dumps(config, sort_keys=True, indent=4))
+    with open("config.json", "w") as f:
+        f.write(json.dumps(config, sort_keys=True, indent=4))
 
 
 def formatted_time(timestamp):
     "Return formatted time by unix timestamp."
     return time.strftime("%d.%m.%Y %H:%M UTC", time.gmtime(int(timestamp)))
+
+
+def save_counts(counts):
+    with open("counts.json", "w") as f:
+        f.write(json.dumps(counts, sort_keys=True, indent=4))
+
+
+def calculate_counts(remote):
+    try:
+        with open("counts.json") as f:
+            local = json.loads(f.read())
+        depth = 0
+        new_echoarea = False
+        for echoarea in remote:
+            try:
+                if remote[echoarea] > local[echoarea]:
+                    tdepth = remote[echoarea] - local[echoarea]
+                    if tdepth > depth:
+                        depth = tdepth
+            except KeyError:
+                new_echoarea = True
+        if new_echoarea and depth < config["depth"]:
+            return config["depth"]
+        if depth > 0:
+            return depth
+        else:
+            return -1
+    except json.JSONDecodeError:
+        return config["depth"]
+    except FileNotFoundError:
+        save_counts(remote)
+        return config["depth"]
 
 
 def body_render(body):

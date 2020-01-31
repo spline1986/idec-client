@@ -1,4 +1,4 @@
-%if pages > 2:
+%if pages > 1:
 
 %st = page - 4
 %if st < 1:
@@ -29,6 +29,6 @@
 .
 .
 .
-<a href="/{{echo[0]}}">{{pages - 1}}</a>
+<a href="/{{echo[0]}}">{{pages}}</a>
 %end
 %end

@@ -119,6 +119,20 @@ def download_filemail(node, fileechoareas, depth):
         download_file(node, s[0], s[1])
 
 
+def download_counts(node, echoareas):
+    r = urllib.request.Request("{0}x/c/{1}".format(node, "/".join(echoareas)))
+    counts = {}
+    try:
+        with urllib.request.urlopen(r) as f:
+            for line in f.read().decode("utf8").split():
+                count = line.split(":")
+                if len(count) == 2:
+                    counts[count[0]] = int(count[1])
+    except urllib.error.URLError:
+        print("cannot connect to uplink")
+    return counts
+
+
 def send_mail(node, auth):
     "Send outgoing messages to server."
     tossed = list(base.get_tossed_list())
@@ -133,3 +147,4 @@ def send_mail(node, auth):
         req = urllib.request.Request(node + "u/point", data=data)
         urllib.request.urlopen(req)
         base.remove_tossed(msg)
+        n += 1

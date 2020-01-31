@@ -7,6 +7,7 @@
 <ul id="buttons">
 <li><a href="/s/fetch">Синхронизация</a></li> |
 <li><a href="/new">Новые сообщения</a></li> |
+<li><a href="/send_file">Отправить файл</a></li> |
 <li><a href="/settings">Настройки</a></li>
 </ul>
 </div><br>
