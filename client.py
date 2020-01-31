@@ -46,7 +46,7 @@ def newmessages():
             if len(line) > 0:
                 f = line.split(":")
                 files.append([f[0], f[1], ":".join(f[2:])])
-    files.sort(key = lambda x: x[1])
+    files.sort(key = lambda x: x[0])
     return template("tpl/{}/new.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], messages=messages,
                     files=files, fechoareas=api.config["fechoareas"],
@@ -60,10 +60,14 @@ def echo_reader(e1, e2, page=False):
     api.load_config()
     echoarea = "{}.{}".format(e1, e2)
     messages = []
-    pages = floor(base.echoarea_count(echoarea) / 50) + 1
+    pages = base.echoarea_count(echoarea) / 25
+    if int(pages) < pages:
+        pages = int(pages) + 1
+    else:
+        pages = int(pages)
     if not page:
         page = pages
-    for msg in base.read_messages_by_page(echoarea, int(page), 50):
+    for msg in base.read_messages_by_page(echoarea, int(page), 25):
         msg[3] = api.formatted_time(msg[3])
         messages.append(msg)
     for echo in api.config["echoareas"]:
@@ -97,7 +101,7 @@ def new_message(echoarea):
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
                         echoareas=api.config["echoareas"], echo=echoarea,
                         fechoareas=api.config["fechoareas"], body="", subj="",
-                        to="All", template=api.config["template"])
+                        repto="", to="All", template=api.config["template"])
 
 
 @route("/reply/<echoarea>/<msgid>")
@@ -114,7 +118,7 @@ def new_message(echoarea, msgid):
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
                         echoareas=api.config["echoareas"], echo=echoarea,
                         fechoareas=api.config["fechoareas"],
-                        body="\n".join(msg), subj=subj, to=fr,
+                        body="\n".join(msg), subj=subj, to=fr, repto=msgid,
                         template=api.config["template"])
 
 
@@ -129,6 +133,17 @@ def fechoarea(fechoarea):
                     echoareas=api.config["echoareas"],
                     fechoareas=api.config["fechoareas"],
                     fechoarea=fechoarea, files=files,
+                    template=api.config["template"])
+
+
+@route("/send_file")
+def send_file():
+    api.load_config()
+    fecholist = [fechoarea[0] for fechoearea in api.config["fechoareas"]]
+    return template("tpl/{}/send_file.tpl".format(api.config["template"]),
+                    echoareas=api.config["echoareas"],
+                    fechoareas=api.config["fechoareas"],
+                    fecholist=fecholist,
                     template=api.config["template"])
 
 
@@ -154,13 +169,17 @@ def fetch():
     api.load_config()
     exchange.send_mail(api.config["node"], api.config["auth"])
     open("newmessages.txt", "w")
-    if api.config["echoareas"]:
-        echoareas = [echo[0] for echo in api.config["echoareas"]]
-        exchange.download_mail(api.config["node"], echoareas, 215)
+    echoareas = [echo[0] for echo in api.config["echoareas"]]
+    counts = exchange.download_counts(api.config["node"], echoareas)
+    depth = api.calculate_counts(counts)
+    if depth >= 0:
+        if api.config["echoareas"]:
+            exchange.download_mail(api.config["node"], echoareas, depth)
+            api.save_counts(counts)
     open("newfiles.txt", "w")
     if api.config["fechoareas"]:
         fechoareas = [fecho[0] for fecho in api.config["fechoareas"]]
-        exchange.download_filemail(api.config["node"], fechoareas, 215)
+        exchange.download_filemail(api.config["node"], fechoareas, 200)
     redirect("/new")
 
 
@@ -171,7 +190,12 @@ def save_message():
     subj = request.forms.getunicode("subj")
     if subj == "":
         subj = "No subject"
-    body = request.forms.getunicode("body")
+    repto = request.forms.getunicode("repto")
+    if not repto == "":
+        body = "@repto:{}\n".format(repto)
+    else:
+        body = ""
+    body += request.forms.getunicode("body")
     echo = request.forms.getunicode("echo")
     if idec_filter.is_echoarea(echo):
         base.save_out(echo, to, subj, body)
