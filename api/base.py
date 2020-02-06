@@ -56,19 +56,18 @@ def read_echoarea(echoarea):
     return msgids
 
 
-def read_last_message(echoarea):
-    "Return last message in echoarea."
+def read_last_messages():
     raw = c.execute("SELECT msgid, tags, echoarea, date, msgfrom, address, " +
-                    "msgto, subject, body FROM messages WHERE echoarea = ? " +
-                    "ORDER BY id DESC LIMIT 1;", (echoarea, )).fetchone()
+                    "msgto, subject, body FROM messages " +
+                    "ORDER BY id DESC LIMIT 25;").fetchall()
     if raw:
-        message = list(raw)
-        message.insert(8, "")
-        message[9:] = message[9].split("\n")
-        return message[0], message[1:]
+        for row in raw:
+            message = list(row)
+            message.insert(8, "")
+            message[9:] = message[9].split("\n")
+            yield [message[0], message[1:]]
     else:
-        return "", []
-
+        return []
 
 def read_messages_by_page(echoarea, page, onpage):
     rows = c.execute("SELECT msgid, tags, echoarea, date, msgfrom, address, msgto, " +

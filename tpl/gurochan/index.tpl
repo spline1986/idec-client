@@ -16,10 +16,9 @@
 %if messages:
 <h2>Последние сообщения:</h2>
 %for msg in messages:
-<h3><a href="/{{msg[1]}}">{{msg[1]}}</a> [{{counts[msg[1]]}}]</h3>
 <div class="message">
 <div class="message-head">
-{{msg[3]}} [{{msg[4]}}] 🠞 {{msg[5]}} ({{msg[2]}})<br>
+{{msg[3]}} [{{msg[4]}}] 🠞 {{msg[5]}} ({{msg[2]}}) в <a href="/{{msg[1]}}">{{msg[1]}}</a><br>
 {{msg[6]}}
 </div>
 %msg = "\n".join(msg[7:])

@@ -14,17 +14,14 @@ def index():
     "Index page function."
     api.load_config()
     messages = []
-    counts = {}
-    for echoarea in api.config["echoareas"]:
-        msgid, msg = base.read_last_message(echoarea[0])
-        if msg:
-            msg[2] = api.formatted_time(msg[2])
-            messages.append(msg)
-            counts[msg[1]] = base.echoarea_count(msg[1])
-            msg[8:] = api.short_body(msg[8:], msgid)
+    for message in base.read_last_messages():
+        msgid, msg = message[0], message[1:][0]
+        msg[2] = api.formatted_time(msg[2])
+        msg[8:] = api.short_body(msg[8:], msgid)
+        messages.append(msg)
     return template("tpl/{}/index.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], messages=messages,
-                    fechoareas=api.config["fechoareas"], counts=counts,
+                    fechoareas=api.config["fechoareas"],
                     template=api.config["template"])
 
 
@@ -222,4 +219,4 @@ def style(filename):
 
 print(open("logo.txt", "r").read())
 base.check_base()
-run(host="localhost", port=4242)
+run(host="localhost", port=62222)
