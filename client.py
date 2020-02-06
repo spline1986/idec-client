@@ -5,7 +5,7 @@ from api import base
 from api import exchange
 from api import fecho
 from api import idec_filter
-from bottle import post, redirect, request, route, run, static_file, template
+from bottle import Request, post, redirect, request, route, run, static_file, template
 from math import floor
 
 
@@ -216,7 +216,7 @@ def style(filename):
     api.load_config()
     return static_file(filename, root="tpl/{}".format(api.config["template"]))
 
-
+Request.MEMFILE_MAX = 1024000
 print(open("logo.txt", "r").read())
 base.check_base()
 run(host="localhost", port=62222)
