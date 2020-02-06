@@ -5,6 +5,11 @@ html, body {
 	font-family: sans-serif;
 }
 
+hr {
+	border: 0;
+	border-top: 1px solid #688abe;
+}
+
 h1 {
 	display: inline;
 }
