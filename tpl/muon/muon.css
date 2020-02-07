@@ -130,6 +130,15 @@ li {
 	margin-bottom: 1.2pt;
 }
 
+.field {
+	width: calc(100% - 12px);
+	background: #111111;
+	background-image: url("/files/input_bg.jpg");
+	color: #fec77d;
+	border: 1px solid #44453d;
+	padding: 5px;
+}
+
 .text_field {
 	width: calc(100% - 12px);
 	background: #111111;

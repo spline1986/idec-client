@@ -5,17 +5,18 @@
 <div id="menu">
 <h1>IDEC</h1>
 <ul id="buttons">
+<li><a href="/">Главная</a></li> |
 <li><a href="/s/fetch">Синхронизация</a></li> |
 <li><a href="/new">Новые сообщения</a></li> |
 <li><a href="/send_file">Отправить файл</a></li> |
-<li><a href="/search">Поиск</a></li> |
 <li><a href="/settings">Настройки</a></li>
 </ul>
 </div><br>
 %include("tpl/{}/sidebar.tpl".format(template), echoareas=echoareas, fechoareas=fechoareas)
 <div id="messages">
+%include("tpl/{}/search_form.tpl".format(template), echoareas=echoareas, echoarea=echoarea, text=text)
 %if messages:
-<h2>Последние сообщения:</h2>
+<h2>Результаты поиска</h2>
 %for msg in messages:
 <div class="message">
 <div class="message-head">
@@ -25,6 +26,7 @@
 %msg = "\n".join(msg[7:])
 {{!body_render(msg)}}
 </div>
+%end
 %end
 %end
 </div>

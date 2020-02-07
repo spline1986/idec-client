@@ -122,6 +122,13 @@ pre {
 	word-break: break-all;
 }
 
+.field {
+	width: calc(100% - 12px);
+	color: #333333;
+	border: 1px solid #cccccc;
+	padding: 5px;
+}
+
 .text_field {
 	width: calc(100% - 12px);
 	color: #333333;

@@ -151,6 +151,35 @@ def settings():
                     config=api.config)
 
 
+@route("/search")
+def search():
+    api.load_config()
+    return template("tpl/{}/search.tpl".format(api.config["template"]),
+                    template=api.config["template"],
+                    echoareas=api.config["echoareas"],
+                    fechoareas=api.config["fechoareas"],
+                    messages=False, echoarea=False, text=False)
+
+
+@post("/search_result")
+def search_result():
+    api.load_config()
+    echoarea = request.forms.getunicode("echoarea")
+    text = request.forms.getunicode("text")
+    result = base.search(echoarea, text)
+    messages = []
+    for message in result:
+        msgid, msg = message[0], message[1:][0]
+        msg[2] = api.formatted_time(msg[2])
+        msg[8:] = api.short_body(msg[8:], msgid)
+        messages.append(msg)
+    return template("tpl/{}/search.tpl".format(api.config["template"]),
+                    echoareas=api.config["echoareas"], messages=messages,
+                    fechoareas=api.config["fechoareas"],
+                    template=api.config["template"], echoarea=echoarea,
+                    text=text)
+
+
 @route("/file/<fechoarea>/<filename>")
 def file(fechoarea, filename):
     api.load_config()

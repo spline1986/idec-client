@@ -167,3 +167,27 @@ def get_tossed(i):
 def remove_tossed(i):
     "Remove tossed message."
     os.remove("out/{}".format(i))
+
+
+def search(echoarea, text):
+    pattern = "%{}%".format(text)
+    if echoarea:
+        raw = c.execute("SELECT msgid, tags, echoarea, date, msgfrom, " +
+                        "address, msgto, subject, body FROM messages " +
+                        "WHERE echoarea = ? AND (msgfrom LIKE ? OR subject " +
+                        "LIKE ? OR body LIKE ?) ORDER BY id;",
+                        (echoarea, pattern, pattern, pattern)).fetchall()
+    else:
+        raw = c.execute("SELECT msgid, tags, echoarea, date, msgfrom, " +
+                        "address, msgto, subject, body FROM messages " +
+                        "WHERE msgfrom LIKE ? OR subject LIKE ? OR body " +
+                        "LIKE ? ORDER BY id;",
+                        (pattern, pattern, pattern)).fetchall()
+    if raw:
+        for row in raw:
+            message = list(row)
+            message.insert(8, "")
+            message[9:] = message[9].split("\n")
+            yield [message[0], message[1:]]
+    else:
+        return []

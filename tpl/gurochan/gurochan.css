@@ -120,6 +120,14 @@ pre {
 	word-break: break-all;
 }
 
+.field {
+	width: 100%;
+	background: #e6cbc0;
+	color: #000000;
+	border: 1px solid #ca927b;
+	padding: 5px;
+}
+
 .text_field {
 	width: calc(100% - 12px);
 	background: #e6cbc0;
@@ -143,4 +151,5 @@ textarea {
 	color: #ffffff;
 	border: 1px solid #777473;
 	padding: 1em 3em;
+	text-align: center;
 }
