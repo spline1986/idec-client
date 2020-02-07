@@ -20,10 +20,11 @@
 %for msg in messages:
 <div class="message">
 <div class="message-head">
-{{msg[3]}} [{{msg[4]}}] 🠞 {{msg[5]}} ({{msg[2]}}) в <a href="/{{msg[1]}}">{{msg[1]}}</a><br>
-{{msg[6]}}
+<a href="/{{msg[0]}}">#</a>
+{{msg[1][3]}} [{{msg[1][4]}}] 🠞 {{msg[1][5]}} ({{msg[1][2]}}) в <a href="/{{msg[1][1]}}">{{msg[1][1]}}</a><br>
+{{msg[1][6]}}
 </div>
-%msg = "\n".join(msg[7:])
+%msg = "\n".join(msg[1][7:])
 {{!body_render(msg)}}
 </div>
 %end

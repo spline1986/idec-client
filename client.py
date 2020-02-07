@@ -172,7 +172,7 @@ def search_result():
         msgid, msg = message[0], message[1:][0]
         msg[2] = api.formatted_time(msg[2])
         msg[8:] = api.short_body(msg[8:], msgid)
-        messages.append(msg)
+        messages.append([msgid, msg])
     return template("tpl/{}/search.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], messages=messages,
                     fechoareas=api.config["fechoareas"],
