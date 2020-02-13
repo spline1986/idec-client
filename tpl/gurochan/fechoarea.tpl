@@ -10,11 +10,14 @@
 <div id="messages">
 <h2>Файлы в {{fechoarea}}</h2>
 %if files:
-<ul>
+<table cellpadding="5" cellspacing="0" border="1">
 %for f in files:
-<li><a target="_blank" href="/file/{{fechoarea}}/{{f[1]}}" title="{{f[4]}}">{{f[1]}}</a></li>
+<tr>
+<td><a target="_blank" href="/file/{{fechoarea}}/{{f[1]}}">{{f[1]}}</a></</td>
+<td>{{f[4]}}</td>
+</tr>
 %end
-</ul>
+</table>
 %else:
 Нет файлов.
 %end

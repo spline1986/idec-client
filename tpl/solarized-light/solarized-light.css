@@ -20,6 +20,18 @@ a:hover {
 	text-decoration: underline;
 }
 
+tr {
+	background: #eee8d5;
+}
+
+tr:hover {
+	background: #fdf6e3;
+}
+
+table, td {
+	border: 1px solid #93a1a1;
+}
+
 #content {
 	min-width: 700px;
 	max-width: 1280px;

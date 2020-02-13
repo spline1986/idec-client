@@ -123,6 +123,18 @@ pre {
 	word-break: break-all;
 }
 
+tr {
+	background: #d9af9e;
+}
+
+tr:hover {
+	background: #eddad2;
+}
+
+table, td {
+	border: 1px solid #ca927b;
+}
+
 .field {
 	width: 100%;
 	background: #e6cbc0;

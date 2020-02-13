@@ -18,6 +18,18 @@ a:hover {
 	color: #0066ff;
 }
 
+tr {
+	background: #dddddd;
+}
+
+tr:hover {
+	background: #eeeeee;
+}
+
+table, td {
+	border: 1px solid #cccccc;
+}
+
 #content {
 	min-width: 700px;
 	max-width: 1280px;

@@ -20,6 +20,20 @@ a:hover {
 	text-shadow: 0px 0px 5px;
 }
 
+tr {
+	background: #2c2c2c;
+	background-image: url("/files/msg_bg.jpg");
+}
+
+tr:hover {
+	background: #000000;
+	background-image: url("/files/input_bg.jpg");
+}
+
+table, td {
+	border: 1px solid #34352d;
+}
+
 #content {
 	min-width: 700px;
 	max-width: 1280px;
