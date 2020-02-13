@@ -45,31 +45,38 @@ def save_counts(counts):
         f.write(json.dumps(counts, sort_keys=True, indent=4))
 
 
+def calculate_depth(local, remote):
+    depth = 0
+    new_echoarea = False
+    for echoarea in remote:
+        try:
+            if remote[echoarea] > local[echoarea]:
+                tdepth = remote[echoarea] - local[echoarea]
+                if tdepth > depth:
+                    depth = tdepth
+        except KeyError:
+            new_echoarea = True
+    if new_echoarea and depth < config["depth"]:
+        depth = config["depth"]
+    return depth
+
+
 def calculate_counts(remote):
     try:
         with open("counts.json") as f:
             local = json.loads(f.read())
-        depth = 0
-        new_echoarea = False
-        for echoarea in remote:
-            try:
-                if remote[echoarea] > local[echoarea]:
-                    tdepth = remote[echoarea] - local[echoarea]
-                    if tdepth > depth:
-                        depth = tdepth
-            except KeyError:
-                new_echoarea = True
-        if new_echoarea and depth < config["depth"]:
-            return config["depth"]
-        if depth > 0:
-            return depth
-        else:
-            return -1
+        depth = calculate_depth(local["echoareas"], remote["echoareas"])
+        fdepth = calculate_depth(local["fechoareas"], remote["fechoareas"])
+        if depth == 0:
+            depth = -1
+        if fdepth == 0:
+            fdepth = -1
+        return depth, fdepth
     except json.JSONDecodeError:
-        return config["depth"]
+        return config["depth"], config["fdepth"]
     except FileNotFoundError:
         save_counts(remote)
-        return config["depth"]
+        return config["depth"], config["fdepth"]
 
 
 def body_render(body):

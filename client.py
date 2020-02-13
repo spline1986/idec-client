@@ -196,16 +196,23 @@ def fetch():
     exchange.send_mail(api.config["node"], api.config["auth"])
     open("newmessages.txt", "w")
     echoareas = [echo[0] for echo in api.config["echoareas"]]
-    counts = exchange.download_counts(api.config["node"], echoareas)
-    depth = api.calculate_counts(counts)
+    fechoareas = [fecho[0] for fecho in api.config["fechoareas"]]
+    counts, fcounts = exchange.download_counts(api.config["node"], echoareas,
+                                               fechoareas)
+    remote = {"echoareas": counts, "fechoareas": fcounts}
+    depth, fdepth = api.calculate_counts(remote)
     if depth >= 0:
         if api.config["echoareas"]:
             exchange.download_mail(api.config["node"], echoareas, depth)
-            api.save_counts(counts)
+    else:
+        print("new messages not found")
     open("newfiles.txt", "w")
-    if api.config["fechoareas"]:
-        fechoareas = [fecho[0] for fecho in api.config["fechoareas"]]
-        exchange.download_filemail(api.config["node"], fechoareas, 200)
+    if fdepth >= 0:
+        if api.config["fechoareas"]:
+            exchange.download_filemail(api.config["node"], fechoareas, fdepth)
+    else:
+        print("new files not found")
+    api.save_counts(remote)
     redirect("/new")
 
 
