@@ -11,10 +11,6 @@ hr {
 	border-top: 1px solid #c6985c;
 }
 
-h1 {
-	display: inline;
-}
-
 a {
 	color: #ffd97a;
 }
@@ -37,11 +33,18 @@ a:hover {
 	background-image: url("/files/msg_bg.jpg");
 	border: 1px solid #34352d;
 	border-radius: 5px;
-	padding: 0.8em 1em 0.2em;
+	padding: 1em 1.5em;
+}
+
+#menu h1 {
+	display: inline;
+	vertical-align: middle;
 }
 
 #menu ul {
 	padding: 0 1em;
+	vertical-align: middle;
+	margin: 0;
 }
 
 #buttons {

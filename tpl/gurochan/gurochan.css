@@ -10,10 +10,6 @@ hr {
 	border-top: 1px solid #000000;
 }
 
-h1 {
-	display: inline;
-}
-
 a {
 	color: #34345c;
 }
@@ -33,11 +29,18 @@ a:hover {
 #menu {
 	background: #d9af9e;
 	border: 1px solid #ca927b;
-	padding: 0.8em 1em 0.2em;
+	padding: 1em 1.5em;
+}
+
+#menu h1 {
+	display: inline;
+	vertical-align: middle;
 }
 
 #menu ul {
 	padding: 0 1em;
+	vertical-align: middle;
+	margin: 0;
 }
 
 #buttons {
