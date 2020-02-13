@@ -4,13 +4,7 @@
 <div id="content">
 <div id="menu">
 <h1>IDEC</h1>
-<ul id="buttons">
-<li><a href="/s/fetch">Синхронизация</a></li> |
-<li><a href="/new">Новые сообщения</a></li> |
-<li><a href="/send_file">Отправить файл</a></li> |
-<li><a href="/search">Поиск</a></li> |
-<li><a href="/settings">Настройки</a></li>
-</ul>
+%include("tpl/{}/menu.tpl".format(template), page=0)
 </div><br>
 %include("tpl/{}/sidebar.tpl".format(template), echoareas=echoareas, fechoareas=fechoareas)
 <div id="messages">
