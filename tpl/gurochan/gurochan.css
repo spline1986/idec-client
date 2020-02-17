@@ -136,7 +136,7 @@ table, td {
 }
 
 .field {
-	width: 100%;
+	width: calc(100% - 12px);
 	background: #e6cbc0;
 	color: #000000;
 	border: 1px solid #ca927b;
