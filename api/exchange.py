@@ -1,4 +1,5 @@
 import base64
+import requests
 import sys
 import urllib.parse
 import urllib.request
@@ -154,3 +155,16 @@ def send_mail(node, auth):
         urllib.request.urlopen(req)
         base.remove_tossed(msg)
         n += 1
+
+
+def send_file(node, pauth, fechoarea, dsc, f):
+    data = {}
+    files = {}
+    data["pauth"] = pauth
+    data["fecho"] = fechoarea
+    data["dsc"] = dsc
+    filename = f.filename
+    files["file"] = (filename, f.file)
+    print("sending {}".format(filename))
+    r = requests.post(node + "f/p", data=data, files=files)
+    return r.text

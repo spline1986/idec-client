@@ -127,7 +127,7 @@ tr {
 	background: #d9af9e;
 }
 
-tr:hover {
+#files tr:hover {
 	background: #eddad2;
 }
 

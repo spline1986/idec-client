@@ -8,19 +8,7 @@
 </div><br>
 %include("tpl/{}/sidebar.tpl".format(template), echoareas=echoareas, fechoareas=fechoareas)
 <div id="messages">
-<h2>Файлы в {{fechoarea}}</h2>
-%if files:
-<table id="files" cellpadding="5" cellspacing="0" border="1">
-%for f in files:
-<tr>
-<td><a target="_blank" href="/file/{{fechoarea}}/{{f[1]}}">{{f[1]}}</a></</td>
-<td>{{f[4]}}</td>
-%end
-</tr>
-</table>
-%else:
-Нет файлов.
-%end
+<h2>Файл отправлен</h2>
 </div>
 </center>
 %include("tpl/{}/footer.tpl".format(template))

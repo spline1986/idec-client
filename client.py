@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import api
+import os
 from api import base
 from api import exchange
 from api import fecho
@@ -136,11 +137,9 @@ def fechoarea(fechoarea):
 @route("/send_file")
 def send_file():
     api.load_config()
-    fecholist = [fechoarea[0] for fechoearea in api.config["fechoareas"]]
     return template("tpl/{}/send_file.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"],
                     fechoareas=api.config["fechoareas"],
-                    fecholist=fecholist,
                     template=api.config["template"])
 
 
@@ -241,6 +240,26 @@ def save_message():
 def saved():
     api.load_config()
     return template("tpl/{}/saved.tpl".format(api.config["template"]),
+                    echoareas=api.config["echoareas"],
+                    fechoareas=api.config["fechoareas"],
+                    body="", template=api.config["template"])
+
+
+@post("/s/send_file")
+def s_send_file():
+    api.load_config()
+    fechoarea = request.forms.getunicode("fechoarea")
+    f = request.files.get("file")
+    dsc = request.forms.get("description")
+    exchange.send_file(api.config["node"], api.config["auth"],
+                       fechoarea, dsc, f)
+    redirect("/s/sended")
+
+
+@route("/s/sended")
+def sended():
+    api.load_config()
+    return template("tpl/{}/sended.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"],
                     fechoareas=api.config["fechoareas"],
                     body="", template=api.config["template"])
