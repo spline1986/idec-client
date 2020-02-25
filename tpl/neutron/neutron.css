@@ -18,6 +18,10 @@ a:hover {
 	color: #eefebb;
 }
 
+h2 {
+    margin-left: 0.5em;
+}
+
 tr {
 	background: #2c2c2c;
 }

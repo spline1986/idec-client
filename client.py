@@ -146,8 +146,13 @@ def send_file():
 @route("/settings")
 def settings():
     api.load_config()
+    templates = os.listdir("tpl")
+    remote_echolist = list(exchange.download_echolist(api.config["node"]))
+    remote_fecholist = list(exchange.download_fecholist(api.config["node"]))
     return template("tpl/{}/settings.tpl".format(api.config["template"]),
-                    config=api.config)
+                    config=api.config, templates=templates,
+                    remote_echolist=remote_echolist,
+                    remote_fecholist=remote_fecholist)
 
 
 @route("/search")
@@ -263,6 +268,37 @@ def sended():
                     echoareas=api.config["echoareas"],
                     fechoareas=api.config["fechoareas"],
                     body="", template=api.config["template"])
+
+
+def build_arealist(areas):
+    areas = areas.strip().replace("\r", "")
+    for area in areas.split("\n"):
+        echo = area.split(":")
+        if len(echo) == 1:
+            echo.append("")
+        yield echo
+
+
+@post("/s/save_settings")
+def save_settings():
+    api.load_config()
+    settings = {}
+    settings["node"] = request.forms.getunicode("node")
+    settings["auth"] = request.forms.getunicode("auth")
+    settings["template"] = request.forms.getunicode("template")
+    if request.forms.get("nodeecholist"):
+        echoareas = request.forms.getunicode("nodeechoareas")
+    else:
+        echoareas = request.forms.getunicode("echoareas")
+    settings["echoareas"] = list(build_arealist(echoareas))
+    if request.forms.get("nodefecholist"):
+        fechoareas = request.forms.getunicode("nodefechoareas")
+    else:
+        fechoareas = request.forms.getunicode("fechoareas")
+    settings["fechoareas"] = list(build_arealist(fechoareas))
+    api.config = settings
+    api.save_config()
+    redirect("/")
 
 
 @route("/files/<filename>")

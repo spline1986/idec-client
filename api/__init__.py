@@ -17,7 +17,9 @@ def load_config():
         if not "auth" in config:
             config["auth"] = ""
         if not "depth" in config:
-            config["depth"] = 50
+            config["depth"] = 0
+        if not "fdepth" in config:
+            config["fdepth"] = 0
         if not "echoareas" in config:
             config["echoareas"] = []
         if not "fechoareas" in config:
@@ -32,7 +34,7 @@ def save_config():
     "Save config json-file from config variable."
     global config
     with open("config.json", "w") as f:
-        f.write(json.dumps(config, sort_keys=True, indent=4))
+        f.write(json.dumps(config, sort_keys=True, indent=4, ensure_ascii=False))
 
 
 def formatted_time(timestamp):

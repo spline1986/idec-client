@@ -168,3 +168,27 @@ def send_file(node, pauth, fechoarea, dsc, f):
     print("sending {}".format(filename))
     r = requests.post(node + "f/p", data=data, files=files)
     return r.text
+
+
+def download_echolist(node):
+    r = urllib.request.Request("{}/list.txt".format(node))
+    try:
+        with urllib.request.urlopen(r) as f:
+            lines = f.read().decode("utf-8")
+            for line in lines.split("\n"):
+                if len(line) > 0:
+                    yield line.split(":")
+    except urllib.error.URLError:
+        return []
+
+
+def download_fecholist(node):
+    r = urllib.request.Request("{}/f/list.txt".format(node))
+    try:
+        with urllib.request.urlopen(r) as f:
+            lines = f.read().decode("utf-8")
+            for line in lines.split("\n"):
+                if len(line) > 0:
+                    yield line.split(":")
+    except urllib.error.URLError:
+        return []
