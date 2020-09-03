@@ -29,13 +29,22 @@ tr {
 	background-image: url("/files/msg_bg.jpg");
 }
 
-tr:hover {
-	background: #000000;
-	background-image: url("/files/input_bg.jpg");
-}
-
 table, td {
 	border: 1px solid #34352d;
+}
+
+.fit-column {
+	width: 1px;
+	white-space: nowrap;
+}
+
+#files {
+	width: 100%;
+}
+
+#files tr:hover {
+	background: #000000;
+	background-image: url("/files/input_bg.jpg");
 }
 
 #content {
@@ -95,9 +104,10 @@ table, td {
 	width: calc(100% - 15em - 2px);
 }
 
-.new_message {
+.new-message {
 	position: absolute;
-	right: 0;
+	right: 1.5em;
+	margin: -1em;
 }
 
 .message {

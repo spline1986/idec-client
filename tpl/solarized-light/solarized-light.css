@@ -28,12 +28,21 @@ tr {
 	background: #eee8d5;
 }
 
-tr:hover {
-	background: #fdf6e3;
-}
-
 table, td {
 	border: 1px solid #93a1a1;
+}
+
+.fit-column {
+	width: 1px;
+	white-space: nowrap;
+}
+
+#files {
+	width: 100%;
+}
+
+#files tr:hover {
+	background: #fdf6e3;
 }
 
 #content {
@@ -91,9 +100,10 @@ table, td {
 	width: calc(100% - 15em - 2px);
 }
 
-.new_message {
+.new-message {
 	position: absolute;
-	right: 0;
+	right: 1.5em;
+	margin: -1em;
 }
 
 .message {

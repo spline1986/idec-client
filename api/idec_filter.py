@@ -1,3 +1,10 @@
+"""
+Module contains functions:
+- is_msgid(msgid) -> bool
+- is_echoarea(echoarea) -> bool
+- is_fileechoarea(fileechoarea) -> bool
+- is_filename(filename) -> bool
+"""
 import re
 
 

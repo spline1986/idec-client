@@ -7,6 +7,12 @@ con = sqlite3.connect("idec.db")
 c = con.cursor()
 
 
+def select(query):
+    rows = c.execute(query).fetchall()
+    for row in rows:
+        yield list(row)
+
+
 def check_file(filename):
     "Check file exists and create if not."
     if not os.path.exists(filename):
@@ -57,9 +63,9 @@ def read_echoarea(echoarea):
 
 
 def read_last_messages():
-    raw = c.execute("SELECT msgid, tags, echoarea, date, msgfrom, address, " +
-                    "msgto, subject, body FROM messages " +
-                    "ORDER BY id DESC LIMIT 25;").fetchall()
+    raw = select("SELECT msgid, tags, echoarea, date, msgfrom, address, " +
+                 "msgto, subject, body FROM messages " +
+                 "ORDER BY id DESC LIMIT 25;")
     if raw:
         for row in raw:
             message = list(row)
@@ -69,13 +75,18 @@ def read_last_messages():
     else:
         return []
 
+
 def read_messages_by_page(echoarea, page, onpage):
-    rows = c.execute("SELECT msgid, tags, echoarea, date, msgfrom, address, msgto, " +
-                    "subject, body FROM messages WHERE echoarea = ? " +
-                     "ORDER BY id LIMIT ?, ?;",
-                     (echoarea, (page - 1) * onpage, onpage)).fetchall()
-    for row in rows:
-        yield list(row)
+    query = ("SELECT msgid, tags, echoarea, date, msgfrom, " +
+             "address, msgto, subject, body FROM messages " +
+             "WHERE echoarea = '{}' ORDER BY id LIMIT {}, {};")
+    return select(query.format(echoarea, (page - 1) * onpage, onpage))
+
+
+def read_messages_list(echoarea, page, onpage):
+    query = ("SELECT msgid, subject, msgfrom, msgto, date FROM messages " +
+             "WHERE echoarea = '{}' ORDER BY id LIMIT {}, {};")
+    return select(query.format(echoarea, (page -1) * onpage, onpage))
 
 
 def read_local_index(echoareas):
@@ -125,6 +136,7 @@ def debundle(bundle):
 
 
 def next_out():
+    "Return next out message number."
     try:
         with open("out/last") as last:
             n = int(last.read())
@@ -170,6 +182,7 @@ def remove_tossed(i):
 
 
 def search(echoarea, text):
+    "Search messages in echoarea (if exists) by text. Return list of msgids."
     pattern = "%{}%".format(text)
     if echoarea:
         raw = c.execute("SELECT msgid, tags, echoarea, date, msgfrom, " +

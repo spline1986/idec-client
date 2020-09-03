@@ -121,6 +121,7 @@ def download_filemail(node, fileechoareas, depth):
 
 
 def c_x(r):
+    "Download counts from uplink."
     counts = {}
     try:
         with urllib.request.urlopen(r) as f:
@@ -134,6 +135,7 @@ def c_x(r):
 
 
 def download_counts(node, echoareas, fechoareas):
+    "Download counts for echoarea and fileechoarea."
     r = urllib.request.Request("{0}x/c/{1}".format(node, "/".join(echoareas)))
     counts = c_x(r)
     r = urllib.request.Request("{0}f/c/{1}".format(node, "/".join(fechoareas)))
@@ -158,6 +160,7 @@ def send_mail(node, auth):
 
 
 def send_file(node, pauth, fechoarea, dsc, f):
+    "Send file to fileechoarea."
     data = {}
     files = {}
     data["pauth"] = pauth
@@ -171,24 +174,30 @@ def send_file(node, pauth, fechoarea, dsc, f):
 
 
 def download_echolist(node):
-    r = urllib.request.Request("{}/list.txt".format(node))
-    try:
-        with urllib.request.urlopen(r) as f:
-            lines = f.read().decode("utf-8")
-            for line in lines.split("\n"):
-                if len(line) > 0:
-                    yield line.split(":")
-    except urllib.error.URLError:
-        return []
+    "Download echoareas list from uplink."
+    if len(node) > 0:
+        r = urllib.request.Request("{}/list.txt".format(node))
+        try:
+            with urllib.request.urlopen(r) as f:
+                lines = f.read().decode("utf-8")
+                for line in lines.split("\n"):
+                    if len(line) > 0:
+                        yield line.split(":")
+        except urllib.error.URLError:
+            return []
+    return []
 
 
 def download_fecholist(node):
-    r = urllib.request.Request("{}/f/list.txt".format(node))
-    try:
-        with urllib.request.urlopen(r) as f:
-            lines = f.read().decode("utf-8")
-            for line in lines.split("\n"):
-                if len(line) > 0:
-                    yield line.split(":")
-    except urllib.error.URLError:
-        return []
+    "Download fileechoareas list from uplink."
+    if len(node) > 0:
+        r = urllib.request.Request("{}/f/list.txt".format(node))
+        try:
+            with urllib.request.urlopen(r) as f:
+                lines = f.read().decode("utf-8")
+                for line in lines.split("\n"):
+                    if len(line) > 0:
+                        yield line.split(":")
+        except urllib.error.URLError:
+            return []
+    return []

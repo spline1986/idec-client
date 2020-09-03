@@ -11,7 +11,9 @@
 %if messages:
 <h2>{{echo[0]}}: {{echo[1]}}</h2>
 <div>
-&nbsp;<a class="new_message" href="/new_message/{{echo[0]}}">Новое сообщение</a>
+&nbsp;<div class="new-message">
+<a href="/list/{{echo[0]}}">Список сообщений</a> | <a href="/new_message/{{echo[0]}}">Новое сообщение</a>
+</div>
 %include("tpl/{}/paginator.tpl".format(template), page=page, pages=pages)
 </div>
 %for msg in messages:
@@ -41,7 +43,7 @@
 <br>
 %if messages:
 <div>
-<a class="new_message" href="/new_message/{{echo[0]}}">Новое сообщение</a>
+&nbsp<a href="/list/{{echo[0]}}">Список сообщений</a> | <a class="new_message" href="/new_message/{{echo[0]}}">Новое сообщение</a>
 %include("tpl/{}/paginator.tpl".format(template), page=page, pages=pages)
 </div>
 %end

@@ -42,12 +42,19 @@ def formatted_time(timestamp):
     return time.strftime("%d.%m.%Y %H:%M UTC", time.gmtime(int(timestamp)))
 
 
+def list_formatted_time(timestamp):
+    "Return date by unix timestamp."
+    return time.strftime("%d.%m.%Y", time.gmtime(int(timestamp)))
+
+
 def save_counts(counts):
+    "Save counts to file."
     with open("counts.json", "w") as f:
         f.write(json.dumps(counts, sort_keys=True, indent=4))
 
 
 def calculate_depth(local, remote):
+    "Calculate request depth."
     depth = 0
     new_echoarea = False
     for echoarea in remote:
@@ -64,6 +71,7 @@ def calculate_depth(local, remote):
 
 
 def calculate_counts(remote):
+    "Calculate counts for echoareas and fileechoareas."
     try:
         with open("counts.json") as f:
             local = json.loads(f.read())
@@ -82,6 +90,7 @@ def calculate_counts(remote):
 
 
 def body_render(body):
+    "Render message body to html."
     body = body.strip()
     body = body.replace("<", "&lt;").replace(">", "&gt;")
     rr = re.compile("((^|\n)(PS|P.S|ps|ЗЫ|З.Ы|\/\/|#).*)")
@@ -126,6 +135,7 @@ def body_render(body):
 
 
 def initials(to):
+    "Initials by To field."
     to = to.split()
     if len(to) == 1:
         return to[0]
@@ -137,6 +147,7 @@ def initials(to):
 
 
 def quoter(text, fr):
+    "Qute message."
     rr = re.compile(r"[a-zA-Zа-яА-Я0-9_\(\)-]{0,20}>{1,20}")
     for line in text:
         if rr.match(line):
@@ -153,6 +164,7 @@ def quoter(text, fr):
 
 
 def short_body(lines, msgid):
+    "Build short message body for main page."
     body = []
     n = 0
     for line in lines:

@@ -1,4 +1,4 @@
-%if pages > 2:
+%if pages > 1:
 
 %st = page - 4
 %if st < 1:
@@ -11,7 +11,7 @@
 %end
 
 %if st > 1:
-<a href="/{{echo[0]}}/1">1</a>
+<a href="/{{paginator_path}}{{echo[0]}}/1">1</a>
 .
 .
 .
@@ -21,7 +21,7 @@
 %if page == p:
 {{p}}
 %else:
-<a href="/{{echo[0]}}/{{p}}">{{p}}</a>
+<a href="/{{paginator_path}}{{echo[0]}}/{{p}}">{{p}}</a>
 %end
 %end
 
@@ -29,6 +29,6 @@
 .
 .
 .
-<a href="/{{echo[0]}}">{{pages}}</a>
+<a href="/{{paginator_path}}{{echo[0]}}">{{pages}}</a>
 %end
 %end

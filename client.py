@@ -6,9 +6,9 @@ from api import base
 from api import exchange
 from api import fecho
 from api import idec_filter
-from bottle import Request, post, redirect, request, route, run, static_file, template
+from bottle import Request, post, redirect, request, route, run, static_file
+from bottle import template
 from math import floor
-
 
 @route("/")
 def index():
@@ -51,38 +51,73 @@ def newmessages():
                     template=api.config["template"])
 
 
-@route("/<e1>.<e2>")
-@route("/<e1>.<e2>/<page>")
-def echo_reader(e1, e2, page=False):
-    "Echoarea reader function."
-    api.load_config()
-    echoarea = "{}.{}".format(e1, e2)
-    messages = []
-    pages = base.echoarea_count(echoarea) / 25
+def check_pages(pages):
     if int(pages) < pages:
         pages = int(pages) + 1
     else:
         pages = int(pages)
-    if not page:
-        page = pages
-    for msg in base.read_messages_by_page(echoarea, int(page), 25):
-        msg[3] = api.formatted_time(msg[3])
-        messages.append(msg)
+    return pages
+
+
+def check_echoarea(echoarea):
     for echo in api.config["echoareas"]:
         if echo[0] == echoarea:
             echoarea = echo
             break
     else:
         echoarea = [echoarea, ""]
+    return echoarea
+
+
+@route("/<e1>.<e2>")
+@route("/<e1>.<e2>/<page>")
+def echo_reader(e1, e2, page=False):
+    "Echoarea reader function."
+    api.load_config()
+    echoarea = "{}.{}".format(e1, e2)
+    pages = check_pages(base.echoarea_count(echoarea) / 25)
+    if not page:
+        page = pages
+    else:
+        page = int(page)
+    messages = []
+    for msg in base.read_messages_by_page(echoarea, page, 25):
+        msg[3] = api.formatted_time(msg[3])
+        messages.append(msg)
+    echoarea = check_echoarea(echoarea)
     return template("tpl/{}/echoarea.tpl".format(api.config["template"]),
                     echo=echoarea, echoareas=api.config["echoareas"],
                     fechoareas=api.config["fechoareas"], messages=messages,
-                    pages=pages, page=int(page),
+                    pages=pages, page=page, paginator_path="",
+                    template=api.config["template"])
+
+
+@route("/list/<e1>.<e2>")
+@route("/list/<e1>.<e2>/<page>")
+def messages_list(e1, e2, page=False):
+    "Echoarea messages list function"
+    api.load_config()
+    echoarea = "{}.{}".format(e1, e2)
+    pages = check_pages(base.echoarea_count(echoarea) / 50)
+    if not page:
+        page = pages
+    else:
+        page = int(page)
+    messages = []
+    for msg in base.read_messages_list(echoarea, page, 50):
+        msg[4] = api.list_formatted_time(msg[4])
+        messages.append(msg)
+    echoarea = check_echoarea(echoarea)
+    return template("tpl/{}/list.tpl".format(api.config["template"]),
+                    echo=echoarea, echoareas=api.config["echoareas"],
+                    fechoareas=api.config["fechoareas"], messages=messages,
+                    pages=pages, page=page, paginator_path="list/",
                     template=api.config["template"])
 
 
 @route("/<msgid>")
 def message_reader(msgid):
+    "Message reader function."
     api.load_config()
     msg = base.read_message(msgid).split("\n")
     msg[2] = api.formatted_time(msg[2])
@@ -94,6 +129,7 @@ def message_reader(msgid):
 
 @route("/new_message/<echoarea>")
 def new_message(echoarea):
+    "New message function."
     api.load_config()
     if idec_filter.is_echoarea(echoarea):
         return template("tpl/{}/new_message.tpl".format(api.config["template"]),
@@ -104,6 +140,7 @@ def new_message(echoarea):
 
 @route("/reply/<echoarea>/<msgid>")
 def new_message(echoarea, msgid):
+    "Reply function."
     api.load_config()
     if idec_filter.is_echoarea(echoarea) and idec_filter.is_msgid(msgid):
         msg = base.read_message(msgid).split("\n")
@@ -122,6 +159,7 @@ def new_message(echoarea, msgid):
 
 @route("/fecho/<fechoarea>")
 def fechoarea(fechoarea):
+    "Fileechoarea function."
     api.load_config()
     files = []
     for f in fecho.read_fechoarea(fechoarea):
@@ -136,6 +174,7 @@ def fechoarea(fechoarea):
 
 @route("/send_file")
 def send_file():
+    "Send file function."
     api.load_config()
     return template("tpl/{}/send_file.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"],
@@ -145,6 +184,7 @@ def send_file():
 
 @route("/settings")
 def settings():
+    "Settings function."
     api.load_config()
     templates = os.listdir("tpl")
     remote_echolist = list(exchange.download_echolist(api.config["node"]))
@@ -155,8 +195,14 @@ def settings():
                     remote_fecholist=remote_fecholist)
 
 
+@route("/messages/<echoarea>")
+def messages(echoarea):
+    pass
+
+
 @route("/search")
 def search():
+    "Search function."
     api.load_config()
     return template("tpl/{}/search.tpl".format(api.config["template"]),
                     template=api.config["template"],
@@ -167,6 +213,7 @@ def search():
 
 @post("/search_result")
 def search_result():
+    "Search results function."
     api.load_config()
     echoarea = request.forms.getunicode("echoarea")
     text = request.forms.getunicode("text")
@@ -186,6 +233,7 @@ def search_result():
 
 @route("/file/<fechoarea>/<filename>")
 def file(fechoarea, filename):
+    "File function."
     api.load_config()
     response =  static_file(filename,
                             root="fecho/{}".format(fechoarea))
@@ -222,6 +270,7 @@ def fetch():
 
 @post("/s/save_message")
 def save_message():
+    "Save out message."
     api.load_config()
     to = request.forms.getunicode("to")
     subj = request.forms.getunicode("subj")
@@ -243,6 +292,7 @@ def save_message():
 
 @route("/s/saved")
 def saved():
+    "Saved page function."
     api.load_config()
     return template("tpl/{}/saved.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"],
@@ -252,6 +302,7 @@ def saved():
 
 @post("/s/send_file")
 def s_send_file():
+    "Send file function."
     api.load_config()
     fechoarea = request.forms.getunicode("fechoarea")
     f = request.files.get("file")
@@ -263,6 +314,7 @@ def s_send_file():
 
 @route("/s/sended")
 def sended():
+    "Sended file function."
     api.load_config()
     return template("tpl/{}/sended.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"],
@@ -271,6 +323,7 @@ def sended():
 
 
 def build_arealist(areas):
+    "Build arealist by settings field."
     areas = areas.strip().replace("\r", "")
     for area in areas.split("\n"):
         echo = area.split(":")
@@ -281,6 +334,7 @@ def build_arealist(areas):
 
 @post("/s/save_settings")
 def save_settings():
+    "Save settings function."
     api.load_config()
     settings = {}
     settings["node"] = request.forms.getunicode("node")
@@ -298,7 +352,7 @@ def save_settings():
     settings["fechoareas"] = list(build_arealist(fechoareas))
     api.config = settings
     api.save_config()
-    redirect("/")
+    redirect("/settings")
 
 
 @route("/files/<filename>")
@@ -308,6 +362,6 @@ def style(filename):
     return static_file(filename, root="tpl/{}".format(api.config["template"]))
 
 Request.MEMFILE_MAX = 1024000
-print(open("logo.txt", "r").read())
+print(open("logo.txt").read())
 base.check_base()
-run(host="localhost", port=62222)
+run(port=62222)

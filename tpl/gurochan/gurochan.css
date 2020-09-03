@@ -77,9 +77,10 @@ h2 {
 	width: calc(100% - 15em - 2px);
 }
 
-.new_message {
+.new-message {
 	position: absolute;
-	right: 0;
+	right: 1.5em;
+	margin: -1em;
 }
 
 .message {
@@ -129,6 +130,15 @@ pre {
 
 tr {
 	background: #d9af9e;
+}
+
+.fit-column {
+	width: 1px;
+	white-space: nowrap;
+}
+
+#files {
+	width: 100%;
 }
 
 #files tr:hover {
