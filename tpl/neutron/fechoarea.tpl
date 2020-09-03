@@ -10,13 +10,20 @@
 <div id="messages">
 <h2>Файлы в {{fechoarea}}</h2>
 %if files:
-<table cellpadding="5" cellspacing="0" border="1">
+<table id="files" cellpadding="5" cellspacing="0" border="1">
 %for f in files:
 <tr>
-<td><a target="_blank" href="/file/{{fechoarea}}/{{f[1]}}">{{f[1]}}</a></</td>
-<td>{{f[4]}}</td>
-</tr>
+<td>
+%images = [".png", ".jpg", ".jpeg", ".gif", ".bmp"]
+%if any(x in f[1] for x in images):
+<a target="_blank" href="/file/{{fechoarea}}/{{f[1]}}"><img src="/file/{{fechoarea}}/{{f[1]}}" height="200"><br>{{f[1]}}</a>
+%else:
+<a target="_blank" href="/file/{{fechoarea}}/{{f[1]}}">{{f[1]}}</a>
 %end
+</td>
+<td valign="top">{{f[4]}}</td>
+%end
+</tr>
 </table>
 %else:
 Нет файлов.
