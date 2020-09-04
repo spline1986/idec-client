@@ -11,6 +11,9 @@
 <h2>Сообщение {{msgid}}</h2>
 <div class="message">
 <div class="message-head">
+<div class="reply">
+<a href="/reply/{{message[1]}}/{{msgid}}">Ответить</a>
+</div>
 %tags = message[0].split("/")
 %if "repto" in tags:
 %reptoid = tags[tags.index("repto") + 1]

@@ -13,7 +13,10 @@
 %for msg in messages:
 <div class="message">
 <div class="message-head">
-{{msg[3]}} [{{msg[4]}}] 🠞 {{msg[5]}} ({{msg[2]}}) в <a href="/{{msg[1]}}">{{msg[1]}}</a><br>
+<div class="reply">
+<a href="/reply/{{msg[2]}}/{{msg[0]}}">Ответить</a>
+</div>
+<a href="/{{msg[0]}}">#</a> {{msg[3]}} [{{msg[4]}}] 🠞 {{msg[5]}} ({{msg[2]}}) в <a href="/{{msg[1]}}">{{msg[1]}}</a><br>
 {{msg[6]}}
 </div>
 %msg = "\n".join(msg[7:])
