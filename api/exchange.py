@@ -6,6 +6,7 @@ import urllib.request
 from api import base
 from api import idec_filter
 from api import fecho
+from itertools import groupby
 
 
 def split(l, size=40):
@@ -39,7 +40,10 @@ def download_index(node, echoareas, depth):
 
 def build_diff(local, remote):
     "Return diff of local and remote index."
-    return [i for i in remote if i not in local]
+    diff = [i for i in remote if i not in local]
+    diff = sorted(diff)
+    diff = [i for i, _ in groupby(diff)]
+    return diff
 
 
 def download_bundle(node, msgids):
