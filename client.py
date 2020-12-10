@@ -19,6 +19,7 @@ def index():
         msgid, msg = message[0], message[1:][0]
         msg[2] = api.formatted_time(msg[2])
         msg[8:] = api.short_body(msg[8:], msgid)
+        msg.insert(0, msgid)
         messages.append(msg)
     return template("tpl/{}/index.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], messages=messages,
@@ -119,8 +120,10 @@ def messages_list(e1, e2, page=False):
 def message_reader(msgid):
     "Message reader function."
     api.load_config()
-    msg = base.read_message(msgid).split("\n")
-    msg[2] = api.formatted_time(msg[2])
+    msg = base.read_message(msgid)
+    if msg :
+        msg = msg.split("\n")
+        msg[2] = api.formatted_time(msg[2])
     return template("tpl/{}/message.tpl".format(api.config["template"]),
                     echoareas=api.config["echoareas"], msgid=msgid,
                     fechoareas=api.config["fechoareas"], message=msg,
@@ -193,11 +196,6 @@ def settings():
                     config=api.config, templates=templates,
                     remote_echolist=remote_echolist,
                     remote_fecholist=remote_fecholist)
-
-
-@route("/messages/<echoarea>")
-def messages(echoarea):
-    pass
 
 
 @route("/search")
