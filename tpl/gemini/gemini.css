@@ -1,0 +1,185 @@
+html, body {
+	color: #666051;
+	background: #cadbbd;
+	background-image: url("/files/bg.png");
+	line-height: 1,3pt;i
+	font-family: serif;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid #666051;
+}
+
+a {
+	color: #f55536;
+}
+
+a:hover {
+	color: #f57556;
+}
+
+h2 {
+	margin-left: 0.5em;
+}
+
+#content {
+	min-width: 700px;
+	max-width: 1280px;
+	width: 90%;
+	text-align: left;
+	margin-bottom: 2em;
+}
+
+#menu {
+	background: #cfe0c3;
+	border: 1px solid #afc0a3;
+	padding: 1em 1.5em;
+}
+
+#menu h1 {
+	display: inline;
+	vertical-align: middle;
+}
+
+#menu ul {
+	padding: 0 1em;
+	vertical-align: middle;
+	margin: 0;
+}
+
+#buttons {
+	display: inline-block;
+}
+
+#buttons li {
+	display: inline;
+}
+
+#sidebar {
+	display: inline-block;
+	width: 14em;
+	margin-top: 1.5em;
+	vertical-align: top;
+}
+
+#sidebar ul {
+	list-style-type: none;
+	padding: 0 1em 0;
+}
+
+#sidebar li {
+	margin-bottom: 2pt;
+}
+
+#messages {
+	display: inline-block;
+	position: relative;
+	width: calc(100% - 15em - 2px);
+}
+
+.new-message {
+	position: absolute;
+	right: 1.5em;
+	margin: -1em;
+}
+
+.message {
+	background: #cfe0c3;
+	border: 1px solid #afc0a3;
+	padding: 1.5em;
+	margin: 1em 0 0;
+}
+
+.message-head {
+	border-bottom: 1px solid #afc0a3;
+	margin: -1em -1em 1em;
+	padding: 1em;
+}
+
+.reply {
+	position: absolute;
+	right: 0;
+}
+
+.reply a {
+	text-decoration: none;
+	padding: 1em;
+}
+
+.quote1 {
+	color: #7f9b2b;
+}
+
+.quote2 {
+	color: #9b7f2b;
+}
+
+.comment {
+	color: #777473;
+}
+
+.origin {
+	color: #54548c;
+}
+
+pre {
+	line-height: normal;
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+tr {
+	background: #afc0a3;
+}
+
+.fit-column {
+	width: 1px;
+	white-space: nowrap;
+}
+
+#files {
+	width: 100%;
+}
+
+#files tr:hover {
+	background: #eddad2;
+}
+
+table, td {
+	border: 1px solid #afc0a3;
+}
+
+.field {
+	width: calc(100% - 12px);
+	background: #cfe0c3;
+	color: #666051;
+	border: 1px solid #afc0a3;
+	padding: 5px;
+}
+
+.text_field {
+	width: calc(100% - 12px);
+	background: #cfe0c3;
+	color: #666051;
+	border: 1px solid #afc0a3;
+	padding: 5px;
+	margin-bottom: 1em;
+}
+
+textarea {
+	width: calc(100% - 12px);
+	background: #cfe0c3;
+	color: #666051;
+	border: 1px solid #afc0a3;
+	padding: 5px;
+	margin-bottom: 1em;
+}
+
+.button {
+	background: #34345c;
+	color: #eeeeee;
+	border: 1px solid #777473;
+	padding: 1em 3em;
+	text-align: center;
+}
