@@ -190,6 +190,7 @@ def settings():
     "Settings function."
     api.load_config()
     templates = os.listdir("tpl")
+    templates.sort()
     remote_echolist = list(exchange.download_echolist(api.config["node"]))
     remote_fecholist = list(exchange.download_fecholist(api.config["node"]))
     return template("tpl/{}/settings.tpl".format(api.config["template"]),
